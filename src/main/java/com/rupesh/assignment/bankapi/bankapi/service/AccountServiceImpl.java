@@ -42,12 +42,9 @@ public class AccountServiceImpl implements AccountService {
     Customer customer = customerRepository.findById(customerID)
         .orElseThrow(() -> new BankAPIException(BankAPIConstants.CUSTOMER_FOT_FOUND_ERROR));
 
-    String accountId =
-        customerID + "-" + (accountRepository.countByCustomer_CustomerId(customerID) + 1);
-
     Account newAccount = new Account();
     newAccount.setCustomer(customer);
-    newAccount.setAccountId(accountId);
+    newAccount.setAccountId(customerID + "-" + (accountRepository.countByCustomer_CustomerId(customerID) + 1));
     newAccount.setBalance(BigDecimal.ZERO);
     Account savedAccount = accountRepository.save(newAccount);
     if (initialCredit.compareTo(BigDecimal.ZERO) != 0) {

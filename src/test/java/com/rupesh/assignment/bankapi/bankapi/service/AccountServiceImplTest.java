@@ -26,7 +26,7 @@ import com.rupesh.assignment.bankapi.bankapi.repository.AccountRepository;
 import com.rupesh.assignment.bankapi.bankapi.repository.CustomerRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountServiceImplTest {
+class AccountServiceImplTest {
 
     @Mock
     private CustomerRepository customerRepository;
@@ -61,7 +61,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testCreateAccount_CustomerExists() {
+    void testCreateAccount_CustomerExists() {
         when(customerRepository.findById("12345")).thenReturn(Optional.of(customer));
         when(accountRepository.countByCustomer_CustomerId("12345")).thenReturn(0L);
         when(accountRepository.save(any(Account.class))).thenReturn(account);
@@ -76,7 +76,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testCreateAccount_CustomerNotFound() {
+    void testCreateAccount_CustomerNotFound() {
         when(customerRepository.findById("12345")).thenReturn(Optional.empty());
 
         assertThrows(BankAPIException.class, () -> accountService.createAccount("12345", new BigDecimal("100.00")));
@@ -87,7 +87,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testGetAccount_AccountExists() {
+    void testGetAccount_AccountExists() {
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
 
         AccountDTO result = accountService.getAccount(1L);
@@ -98,7 +98,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testGetAccount_AccountNotFound() {
+    void testGetAccount_AccountNotFound() {
         when(accountRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(BankAPIException.class, () -> accountService.getAccount(1L));
@@ -106,7 +106,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testGetAllAccounts() {
+    void testGetAllAccounts() {
         when(accountRepository.findAll()).thenReturn(List.of(account));
 
         List<AccountDTO> result = accountService.getAllAccounts();

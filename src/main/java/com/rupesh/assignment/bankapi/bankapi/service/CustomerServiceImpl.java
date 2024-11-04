@@ -17,6 +17,7 @@ import com.rupesh.assignment.bankapi.bankapi.utils.BankAPIConstants;
 
 /**
  * This is an implementation class of Customer Service.
+ * 
  * @author Rupesh
  *
  */
@@ -33,10 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   public CustomerDTO getCustomerInfo(String customerID) {
-    Customer customer = customerRepository.findById(customerID)
-        .orElseThrow(() -> new BankAPIException(BankAPIConstants.CUSTOMER_FOT_FOUND_ERROR));
 
-    return convertToDTO(customer);
+    return convertToDTO(customerRepository.findById(customerID)
+        .orElseThrow(() -> new BankAPIException(BankAPIConstants.CUSTOMER_FOT_FOUND_ERROR)));
   }
 
   @Override
@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
       addCustomer(customer);
     }
   }
-  
+
   @Override
   public List<CustomerDTO> getAllCustomers() {
     List<Customer> customer = customerRepository.findAll();

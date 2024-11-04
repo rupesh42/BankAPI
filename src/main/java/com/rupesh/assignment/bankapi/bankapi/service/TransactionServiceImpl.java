@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     Account account = accountRepository.findById(accountId)
         .orElseThrow(() -> new BankAPIException(BankAPIConstants.ACCOUNT_NOT_FOUND_ERROR));
     Transaction transaction = new Transaction();
-    transaction.setTransactionID("TS-" + generateNumericUUID());
+    transaction.setTransactionID("TS-" + generateTransactionNumber());
     transaction.setAmount(amount);
     transaction.setDate(LocalDateTime.now());
     transaction.setAccount(account);
@@ -51,7 +51,13 @@ public class TransactionServiceImpl implements TransactionService {
     return transactionRepository.save(transaction);
   }
 
-  private String generateNumericUUID() {
+  /**
+   * This method will generate a numeric for transaction based on the current timestamp
+   * 
+   * @return
+   */
+  private String generateTransactionNumber() {
+
     LocalDate date = LocalDate.now();
     String uuid =
         date.toString().replace("-", "") + UUID.randomUUID().toString().replaceAll("\\D", "");

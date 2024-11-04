@@ -19,24 +19,24 @@ import com.rupesh.assignment.bankapi.bankapi.exception.BankAPIException;
 import com.rupesh.assignment.bankapi.bankapi.repository.CustomerRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerServiceImplTest {
+class CustomerServiceImplTest {
 
-    @Mock
-    private CustomerRepository customerRepository;
+  @Mock
+  private CustomerRepository customerRepository;
 
-    @InjectMocks
-    private CustomerServiceImpl customerService;
+  @InjectMocks
+  private CustomerServiceImpl customerService;
 
-    private Customer customer;
+  private Customer customer;
 
-    @BeforeEach
-    public void setUp() {
-        customer = new Customer();
-        customer.setCustomerId("12345");
-    }
+  @BeforeEach
+  public void setUp() {
+    customer = new Customer();
+    customer.setCustomerId("12345");
+  }
 
-    @Test
-    public void testGetCustomerInfo_CustomerExists() {
+  @Test
+    void testGetCustomerInfo_CustomerExists() {
         when(customerRepository.findById("12345")).thenReturn(Optional.of(customer));
 
         CustomerDTO result = customerService.getCustomerInfo("12345");
@@ -45,16 +45,16 @@ public class CustomerServiceImplTest {
         verify(customerRepository, times(1)).findById("12345");
     }
 
-    @Test
-    public void testGetCustomerInfo_CustomerNotFound() {
+  @Test
+    void testGetCustomerInfo_CustomerNotFound() {
         when(customerRepository.findById("12345")).thenReturn(Optional.empty());
 
         assertThrows(BankAPIException.class, () -> customerService.getCustomerInfo("12345"));
         verify(customerRepository, times(1)).findById("12345");
     }
 
-    @Test
-    public void testAddCustomer() {
+  @Test
+    void testAddCustomer() {
         when(customerRepository.save(customer)).thenReturn(customer);
 
         Customer result = customerService.addCustomer(customer);
@@ -63,8 +63,8 @@ public class CustomerServiceImplTest {
         verify(customerRepository, times(1)).save(customer);
     }
 
-    @Test
-    public void testEnsureCustomerExists_CustomerNotExists() {
+  @Test
+    void testEnsureCustomerExists_CustomerNotExists() {
         when(customerRepository.existsById("12345")).thenReturn(false);
         when(customerRepository.save(customer)).thenReturn(customer);
 
@@ -74,8 +74,8 @@ public class CustomerServiceImplTest {
         verify(customerRepository, times(1)).save(customer);
     }
 
-    @Test
-    public void testEnsureCustomerExists_CustomerExists() {
+  @Test
+    void testEnsureCustomerExists_CustomerExists() {
         when(customerRepository.existsById("12345")).thenReturn(true);
 
         customerService.ensureCustomerExists(customer);

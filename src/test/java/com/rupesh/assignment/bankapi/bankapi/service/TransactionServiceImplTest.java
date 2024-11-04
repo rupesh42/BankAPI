@@ -24,7 +24,7 @@ import com.rupesh.assignment.bankapi.bankapi.repository.AccountRepository;
 import com.rupesh.assignment.bankapi.bankapi.repository.TransactionRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class TransactionServiceImplTest {
+class TransactionServiceImplTest {
 
     @Mock
     private AccountRepository accountRepository;
@@ -52,7 +52,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testCreateTransaction_AccountExists() {
+    void testCreateTransaction_AccountExists() {
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
         when(accountRepository.save(account)).thenReturn(account);
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
@@ -69,7 +69,7 @@ public class TransactionServiceImplTest {
     }
 
     @Test
-    public void testCreateTransaction_AccountNotFound() {
+    void testCreateTransaction_AccountNotFound() {
         when(accountRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(BankAPIException.class, () -> transactionService.createTransaction(1L, new BigDecimal("100.00")));
